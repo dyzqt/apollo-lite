@@ -385,9 +385,8 @@ ForsenseNmeaParser::ProcessPayload() {
   }
 
   // Validate checksum.
-  // the checksum calculation includes the header, leadding '$' and crc
-  // delimiter '*'
-  bool checksum_ok = IsChecksumValid(frame_view, 0, crc_chars_start_pos);
+  // the checksum calculation includes the header, but not leading '$'
+  bool checksum_ok = IsChecksumValid(frame_view, 1, crc_chars_start_pos);
 
   if (!checksum_ok) {
     AWARN << "Checksum validation failed. Consuming frame.";
@@ -428,8 +427,9 @@ bool ForsenseNmeaParser::IsChecksumValid(std::string_view frame_view,
                                          size_t payload_start,
                                          size_t crc_chars_start) {
   // Extract payload view for checksum calculation
+  // The payload is from payload_start to just before crc_chars_start - 1
   auto payload_view =
-      frame_view.substr(payload_start, crc_chars_start - payload_start);
+      frame_view.substr(payload_start, crc_chars_start - payload_start - 1);
 
   // Extract checksum hex characters view
   auto crc_hex_view =
