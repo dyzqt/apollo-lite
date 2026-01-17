@@ -1,0 +1,10 @@
+# 元感右前角雷达检测配置
+
+radar_name: "yg_radar_front_right"
+tf_child_frame_id: "yg_radar_front_right"
+radar_forward_distance: 80.0
+radar_preprocessor_method: "ContiArsPreprocessor"
+radar_perception_method: "RadarObstaclePerception"
+radar_pipeline_name: "YgRadarPipeline"
+odometry_channel_name: "/apollo/localization/pose"
+output_channel_name: "/perception/inner/PrefusedObjects"
